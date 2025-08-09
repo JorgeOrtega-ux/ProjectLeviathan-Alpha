@@ -209,10 +209,10 @@ body {
 }
 
 .module-options .menu-content {
+    display: flex;
     flex-direction: column;
     width: 100%;
     max-height: 450px;
-    padding: 8px;
     gap: 0;
     color: #000000;
     background-color: #ffffff;
@@ -222,6 +222,11 @@ body {
 }
 
 /* --- Menú --- */
+.menu-body {
+    flex: 1;
+    padding: 8px;
+}
+
 .menu-list {
     display: flex;
     flex-direction: column;
