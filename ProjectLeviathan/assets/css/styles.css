@@ -171,7 +171,11 @@ body {
 
 /* Decoraciones de borde por rango */
 .rank-owner {
-    background: conic-gradient(from -120deg, #fbbc04 0deg, #ff6b35 60deg, #4285f4 150deg, #34a853 270deg, #fbbc04 360deg);
+    background: conic-gradient(from -120deg,
+            #fbbc04 0deg 60deg,
+            #ff6b35 60deg 150deg,
+            #4285f4 150deg 270deg,
+            #34a853 270deg 360deg);
 }
 
 .rank-admin {
