@@ -17,7 +17,6 @@
                     <div class="header">
                         <div class="header-left"></div>
                         <div class="header-right">
-                            <!-- Owner -->
                             <div class="header-item">
                                 <div class="profile-container rank-owner" data-action="toggleModuleOptions">
                                     <div class="profile-content">
@@ -29,6 +28,9 @@
                         </div>
                         <div class="module-content module-options body-title disabled" data-module="moduleOptions">
                             <div class="menu-content">
+                                <div class="pill-container">
+                                    <div class="drag-handle"></div>
+                                </div>
                                 <div class="menu-list">
                                     <div class="menu-link">
                                         <div class="menu-link-icon">
@@ -51,7 +53,7 @@
                                             <span class="material-symbols-rounded">shopping_cart</span>
                                         </div>
                                         <div class="menu-link-text">
-                                            <span>Historial de recursos</span>
+                                            <span>Historial de compras</span>
                                         </div>
                                     </div>
                                     <div class="menu-link">
@@ -71,6 +73,7 @@
             </div>
         </div>
     </div>
+    <script type="module" src="assets/js/app-init.js"></script>
 </body>
 
 </html>

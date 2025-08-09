@@ -233,17 +233,19 @@ body {
     border-radius: 12px;
     border: 1px solid transparent;
     box-shadow: 0 4px 12px #00000020;
-}.menu-list {
-    display: flex
-;
+}
+
+.menu-list {
+    display: flex;
     flex-direction: column;
     width: 100%;
     height: auto;
     gap: 4px;
     user-select: none;
-}.menu-link {
-    display: flex
-;
+}
+
+.menu-link {
+    display: flex;
     flex: 0 0 auto;
     flex-direction: row;
     width: 100%;
@@ -252,21 +254,68 @@ body {
     position: relative;
     border-radius: 8px;
     cursor: pointer;
-}.menu-link-icon {
-    display: flex
-;
+}
+
+.menu-link-icon {
+    display: flex;
     flex: 0 0 auto;
     justify-content: center;
     align-items: center;
     width: 45px;
     height: 100%;
-}.menu-link-text {
+}
+
+.menu-link-text {
     display: block;
     flex: 1 1 auto;
     text-align: start;
     overflow: hidden;
     align-self: center;
 }
+
 .menu-link:hover {
     background-color: #f5f5fa;
+}
+
+
+@media (max-width: 468px) {
+    .module-content.module-options {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+        justify-content: center;
+        align-items: flex-end;
+        width: 100%;
+        height: 100%;
+        background-color: #00000080;
+    }
+
+    .module-options .menu-content {
+        padding-top: 0;
+        border-bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        max-height: 80%;
+    }
+}
+.pill-container {
+    display: none;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 0;
+}@media (max-width: 468px) {
+    .pill-container {
+        display: flex
+;
+    }
+}.drag-handle {
+    position: relative;
+    display: flex
+;
+    width: 52px;
+    height: 4px;
+    background-color: #f5f5fa;
+    border-radius: 50px;
+    cursor: pointer;
 }
