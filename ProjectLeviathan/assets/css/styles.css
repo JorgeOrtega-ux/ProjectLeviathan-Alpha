@@ -125,7 +125,9 @@ body {
     cursor: pointer;
     outline: none;
     user-select: none;
-}/* ====================================== */
+}
+
+/* ====================================== */
 /* ============= USER PROFILE =========== */
 /* ====================================== */
 
@@ -139,15 +141,15 @@ body {
     border-radius: 50%;
     box-sizing: border-box;
     cursor: pointer;
-    /* * Versión final con colores cardinales:
-     * Rojo (arriba), Azul (derecha), Verde (abajo), Amarillo (izquierda).
+    /* Configuración exacta para coincidir con la imagen de referencia:
+     * Amarillo pequeño, Rojo y Verde iguales, Azul el más grande
      */
     background: conic-gradient(
-        from -45deg, /* Rotamos el inicio para alinear los colores a los ejes */
-        #1967d2 0deg 90deg,    /* Azul */
-        #1e8e3e 90deg 180deg,  /* Verde */
-        #f29900 180deg 270deg, /* Amarillo */
-        #d93025 270deg 360deg  /* Rojo */
+        from -120deg,               /* Iniciamos desde la izquierda */
+        #fbbc04 0deg 60deg,        /* Amarillo (pequeño - 60°) */
+        #ff6b35 60deg 150deg,      /* Rojo/Naranja (90° - igual que verde) */
+        #4285f4 150deg 270deg,     /* Azul (grande - 120°) */
+        #34a853 270deg 360deg      /* Verde (90° - igual que rojo) */
     );
     /* El padding define el grosor del borde de colores */
     padding: 2px;
@@ -167,7 +169,7 @@ body {
     font-weight: 500;
     user-select: none;
     box-sizing: border-box;
-    /* * Este borde blanco crea el espacio o efecto "despegado".
+    /* Este borde blanco crea el espacio o efecto "despegado".
      * Su color debe ser el mismo que el del fondo del header.
      */
     border: 2px solid #ffffff; 
