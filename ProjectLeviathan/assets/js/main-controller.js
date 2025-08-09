@@ -1,19 +1,13 @@
-export function initMainController() {
-    // === CONTROLES ===
+function initMainController() {
     let closeOnClickOutside = true;
     let closeOnEscape = true;
     let isModuleOptionsActive = false;
-    // =================
 
     const toggleButton = document.querySelector('[data-action="toggleModuleOptions"]');
     const moduleOptions = document.querySelector('[data-module="moduleOptions"]');
 
     if (!toggleButton || !moduleOptions) return;
 
-    /**
-     * Registra un mensaje de estado en la consola, con "ProjectLeviathan - (Modules)" como el grupo expandible.
-     * @param {string} message - El mensaje específico a mostrar (ej. "Initial state", "Module updated").
-     */
     const logState = (message) => {
         console.groupCollapsed('ProjectLeviathan - (Modules)');
         console.log(`${message} -> isModuleOptionsActive: ${isModuleOptionsActive}`);
@@ -38,7 +32,6 @@ export function initMainController() {
         }
     };
 
-    // Listener para el botón principal que abre/cierra el menú.
     toggleButton.addEventListener('click', (e) => {
         e.stopPropagation();
         if (moduleOptions.classList.contains('disabled')) {
@@ -48,7 +41,6 @@ export function initMainController() {
         }
     });
 
-    // Listener para cerrar el menú haciendo clic fuera.
     if (closeOnClickOutside) {
         document.addEventListener('click', (e) => {
             if (isModuleOptionsActive && !moduleOptions.contains(e.target) && !toggleButton.contains(e.target)) {
@@ -57,7 +49,6 @@ export function initMainController() {
         });
     }
 
-    // Listener para cerrar el menú con la tecla 'Escape'.
     if (closeOnEscape) {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isModuleOptionsActive) {
@@ -66,6 +57,7 @@ export function initMainController() {
         });
     }
 
-    // Muestra el estado inicial al cargar la página.
     logState('Initial state');
 }
+
+export { initMainController };

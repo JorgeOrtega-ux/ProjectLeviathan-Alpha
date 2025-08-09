@@ -14,60 +14,7 @@
         <div class="main-content">
             <div class="general-content">
                 <div class="general-content-top">
-                    <div class="header">
-                        <div class="header-left"></div>
-                        <div class="header-right">
-                            <div class="header-item">
-                                <div class="profile-container rank-owner" data-action="toggleModuleOptions">
-                                    <div class="profile-content">
-                                        <span class="material-symbols-rounded">shield</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="module-content module-options body-title disabled" data-module="moduleOptions">
-                            <div class="menu-content">
-                                <div class="pill-container">
-                                    <div class="drag-handle"></div>
-                                </div>
-                                <div class="menu-list">
-                                    <div class="menu-link">
-                                        <div class="menu-link-icon">
-                                            <span class="material-symbols-rounded">settings</span>
-                                        </div>
-                                        <div class="menu-link-text">
-                                            <span>Configuracion</span>
-                                        </div>
-                                    </div>
-                                    <div class="menu-link">
-                                        <div class="menu-link-icon">
-                                            <span class="material-symbols-rounded">help</span>
-                                        </div>
-                                        <div class="menu-link-text">
-                                            <span>Ayuda y recursos</span>
-                                        </div>
-                                    </div>
-                                    <div class="menu-link">
-                                        <div class="menu-link-icon">
-                                            <span class="material-symbols-rounded">shopping_cart</span>
-                                        </div>
-                                        <div class="menu-link-text">
-                                            <span>Historial de compras</span>
-                                        </div>
-                                    </div>
-                                    <div class="menu-link">
-                                        <div class="menu-link-icon">
-                                            <span class="material-symbols-rounded">exit_to_app</span>
-                                        </div>
-                                        <div class="menu-link-text">
-                                            <span>Cerrar sesion</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php include 'includes/layouts/header.php'; ?>
                 </div>
                 <div class="general-content-bottom"></div>
             </div>

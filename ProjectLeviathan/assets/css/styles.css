@@ -1,6 +1,6 @@
-/* Tu CSS original */
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* --- Reset y Estilos Base --- */
 * {
     margin: 0;
     padding: 0;
@@ -26,6 +26,7 @@ body {
     color: #000000;
 }
 
+/* --- Layout Principal --- */
 .page-wrapper {
     width: 100%;
     height: 100%;
@@ -65,6 +66,7 @@ body {
     overflow: hidden;
 }
 
+/* --- Cabecera --- */
 .header {
     position: relative;
     display: flex;
@@ -114,7 +116,7 @@ body {
     user-select: none;
 }
 
-/* Perfiles base */
+/* --- Estilos de Perfil y Rango --- */
 .profile-container {
     display: flex;
     justify-content: center;
@@ -142,44 +144,34 @@ body {
     border: 2px solid #ffffff;
 }
 
-/* Fondos específicos por rango */
+/* Fondos por rango */
 .rank-owner .profile-content {
     background-color: #8b2635;
-    /* Rojo oscuro para owner */
 }
 
 .rank-admin .profile-content {
     background-color: #8b2635;
-    /* Rojo oscuro */
 }
 
 .rank-manager .profile-content {
     background-color: #1a5e2a;
-    /* Verde oscuro */
 }
 
 .rank-moderator .profile-content {
     background-color: #004080;
-    /* Azul oscuro */
 }
 
 .rank-support .profile-content {
     background-color: #b8860b;
-    /* Amarillo oscuro */
 }
 
 .rank-user .profile-content {
     background-color: #495057;
-    /* Gris oscuro */
 }
 
-/* Rangos */
+/* Decoraciones de borde por rango */
 .rank-owner {
-    background: conic-gradient(from -120deg,
-            #fbbc04 0deg 60deg,
-            #ff6b35 60deg 150deg,
-            #4285f4 150deg 270deg,
-            #34a853 270deg 360deg);
+    background: conic-gradient(from -120deg, #fbbc04 0deg, #ff6b35 60deg, #4285f4 150deg, #34a853 270deg, #fbbc04 360deg);
 }
 
 .rank-admin {
@@ -202,17 +194,7 @@ body {
     background: #6c757d;
 }
 
-
-
-.disabled {
-    display: none;
-}
-
-.active {
-    display: flex;
-}
-
-
+/* --- Módulos --- */
 .module-content.module-options {
     position: absolute;
     top: calc(100% + 5px);
@@ -235,6 +217,7 @@ body {
     box-shadow: 0 4px 12px #00000020;
 }
 
+/* --- Menú --- */
 .menu-list {
     display: flex;
     flex-direction: column;
@@ -246,7 +229,6 @@ body {
 
 .menu-link {
     display: flex;
-    flex: 0 0 auto;
     flex-direction: row;
     width: 100%;
     height: 40px;
@@ -256,9 +238,12 @@ body {
     cursor: pointer;
 }
 
+.menu-link:hover {
+    background-color: #f5f5fa;
+}
+
 .menu-link-icon {
     display: flex;
-    flex: 0 0 auto;
     justify-content: center;
     align-items: center;
     width: 45px;
@@ -273,11 +258,34 @@ body {
     align-self: center;
 }
 
-.menu-link:hover {
-    background-color: #f5f5fa;
+/* --- Estados --- */
+.disabled {
+    display: none;
 }
 
+.active {
+    display: flex;
+}
 
+/* --- Elementos UI Móviles --- */
+.pill-container {
+    display: none;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 0;
+}
+
+.drag-handle {
+    position: relative;
+    display: flex;
+    width: 52px;
+    height: 4px;
+    background-color: #f5f5fa;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+/* --- Media Queries --- */
 @media (max-width: 468px) {
     .module-content.module-options {
         position: fixed;
@@ -298,24 +306,19 @@ body {
         border-bottom-right-radius: 0;
         max-height: 80%;
     }
-}
-.pill-container {
-    display: none;
-    justify-content: center;
-    width: 100%;
-    padding: 8px 0;
-}@media (max-width: 468px) {
+
     .pill-container {
-        display: flex
-;
+        display: flex;
     }
-}.drag-handle {
-    position: relative;
-    display: flex
-;
-    width: 52px;
-    height: 4px;
-    background-color: #f5f5fa;
-    border-radius: 50px;
-    cursor: pointer;
+}
+
+/* --- Clases de Utilidad --- */
+.overflow-y {
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-color: #00000080 transparent;
+    scrollbar-width: thin;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
 }
