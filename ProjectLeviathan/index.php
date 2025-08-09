@@ -16,8 +16,14 @@
                     <div class="header">
                         <div class="header-left"></div>
                         <div class="header-right">
-                            <div class="header-item"></div>
-                        </div>
+    <div class="header-item">
+        <div class="profile-container">
+            <div class="profile-content">
+                J
+            </div>
+        </div>
+        </div>
+</div>
                     </div>
                 </div>
                 <div class="general-content-bottom"></div>
