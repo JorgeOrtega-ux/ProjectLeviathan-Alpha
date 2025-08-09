@@ -252,6 +252,7 @@ body {
     align-items: center;
     width: 45px;
     height: 100%;
+    flex-shrink: 0;
 }
 
 .menu-link-text {
@@ -260,6 +261,13 @@ body {
     text-align: start;
     overflow: hidden;
     align-self: center;
+}
+
+.menu-link-text span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* --- Estados --- */
