@@ -317,11 +317,14 @@ body {
     }
 
     .module-options .menu-content {
-        padding-top: 0;
         border-bottom: 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         max-height: 80%;
+    }
+
+    .menu-body {
+        padding-top: 0;
     }
 
     .pill-container {
