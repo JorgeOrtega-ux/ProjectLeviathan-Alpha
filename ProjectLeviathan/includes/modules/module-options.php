@@ -1,11 +1,11 @@
 <div class="module-content module-options body-title disabled" data-module="moduleOptions">
-    <div class="menu-content">
+    <div class="menu-content disabled">
         <div class="pill-container">
             <div class="drag-handle"></div>
         </div>
         <div class="menu-body overflow-y">
             <div class="menu-list">
-                <div class="menu-link">
+                <div class="menu-link" data-action="toggleSectionSettings">
                     <div class="menu-link-icon">
                         <span class="material-symbols-rounded">settings</span>
                     </div>
@@ -21,7 +21,7 @@
                         <span>Ayuda y recursos</span>
                     </div>
                 </div>
-                <div class="menu-link">
+                <div class="menu-link" data-action="toggleSectionPurchaseHistory">
                     <div class="menu-link-icon">
                         <span class="material-symbols-rounded">shopping_cart</span>
                     </div>

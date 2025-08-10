@@ -152,7 +152,7 @@ body {
     background-color: #dc3545;
 }
 
-.rank-manager .profile-content {
+.rank-community-manager .profile-content {
     background-color: #28a745;
 }
 
@@ -160,7 +160,7 @@ body {
     background-color: #007bff;
 }
 
-.rank-support .profile-content {
+.rank-support-team .profile-content {
     background-color: #ffc107;
 }
 
@@ -176,7 +176,7 @@ body {
     background: #dc3545;
 }
 
-.rank-manager {
+.rank-community-manager {
     background: #28a745;
 }
 
@@ -184,7 +184,7 @@ body {
     background: #007bff;
 }
 
-.rank-support {
+.rank-support-team {
     background: #ffc107;
 }
 
@@ -230,7 +230,6 @@ body {
 }
 
 .module-surface .menu-content {
-    display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
@@ -360,6 +359,7 @@ body {
         width: 100%;
         z-index: 999;
     }
+
     .module-options .menu-content {
         border-bottom: 0;
         border-bottom-left-radius: 0;
@@ -368,14 +368,29 @@ body {
         transform: translateY(100%);
         transition: transform 0.3s ease-out;
     }
-    .module-options .menu-content.is-open {
+
+    .module-options .menu-content.active {
         transform: translateY(0);
     }
+
     .menu-body {
         padding-top: 0;
     }
+
     .pill-container {
         display: flex;
+    }
+
+    .module-content.module-surface {
+        width: 100%;
+        padding: 0;
+    }
+
+    .module-surface .menu-content {
+        width: 100%;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        box-shadow: unset;
     }
 }
 
@@ -383,6 +398,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -392,6 +408,7 @@ body {
     from {
         opacity: 1;
     }
+
     to {
         opacity: 0;
     }

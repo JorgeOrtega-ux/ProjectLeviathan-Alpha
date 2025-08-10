@@ -1,42 +1,84 @@
 import { initDragController } from './drag-controller.js';
 
 function initMainController() {
-    let closeOnClickOutside = true;
-    let closeOnEscape = true;
-    let allowMultipleActiveModules = false;
-
-    let isModuleOptionsActive = false;
-    let isModuleSurfaceActive = false;
+    // --- General Settings ---
+    const closeOnClickOutside = true;
+    const closeOnEscape = true;
+    const allowMultipleActiveModules = false;
     let isAnimating = false;
 
+    // --- State Variables ---
+    let isModuleOptionsActive = false;
+    let isModuleSurfaceActive = false;
+    let isSectionHomeActive = true;
+    let isSectionExploreActive = false;
+    let isSectionSettingsActive = false;
+    let isSectionProfileActive = false;
+    let isSectionLoginActive = false;
+    let isSectionAccessibilityActive = false;
+    let isSectionPurchaseHistoryActive = false;
+
+    // --- Element Selectors ---
     const toggleOptionsButton = document.querySelector('[data-action="toggleModuleOptions"]');
     const moduleOptions = document.querySelector('[data-module="moduleOptions"]');
     const toggleSurfaceButton = document.querySelector('[data-action="toggleModuleSurface"]');
     const moduleSurface = document.querySelector('[data-module="moduleSurface"]');
+    const surfaceMain = document.querySelector('[data-surface-type="main"]');
+    const surfaceSettings = document.querySelector('[data-surface-type="settings"]');
+    const sectionHome = document.querySelector('[data-section="sectionHome"]');
+    const sectionExplore = document.querySelector('[data-section="sectionExplore"]');
+    const sectionSettings = document.querySelector('[data-section="sectionSettings"]');
+    const sectionProfile = document.querySelector('[data-section="sectionProfile"]');
+    const sectionLogin = document.querySelector('[data-section="sectionLogin"]');
+    const sectionAccessibility = document.querySelector('[data-section="sectionAccessibility"]');
+    const sectionPurchaseHistory = document.querySelector('[data-section="sectionPurchaseHistory"]');
+    const toggleSectionHomeButton = document.querySelector('[data-action="toggleSectionHome"]');
+    const toggleSectionExploreButton = document.querySelector('[data-action="toggleSectionExplore"]');
+    const toggleSectionSettingsButton = document.querySelector('[data-action="toggleSectionSettings"]');
+    const toggleSectionPurchaseHistoryButton = document.querySelector('[data-action="toggleSectionPurchaseHistory"]');
+    const toggleSectionHomeFromSettingsButton = document.querySelector('[data-action="toggleSectionHomeFromSettings"]');
+    const toggleSectionProfileButton = document.querySelector('[data-action="toggleSectionProfile"]');
+    const toggleSectionLoginButton = document.querySelector('[data-action="toggleSectionLogin"]');
+    const toggleSectionAccessibilityButton = document.querySelector('[data-action="toggleSectionAccessibility"]');
+    const toggleSectionPurchaseHistoryFromSettingsButton = document.querySelector('[data-action="toggleSectionPurchaseHistoryFromSettings"]');
 
-    if (!toggleOptionsButton || !moduleOptions || !toggleSurfaceButton || !moduleSurface) return;
+    if (!toggleOptionsButton || !moduleOptions || !toggleSurfaceButton || !moduleSurface || !sectionHome || !sectionExplore || !sectionSettings) return;
 
     const menuContentOptions = moduleOptions.querySelector('.menu-content');
 
     const updateLogState = () => {
-        console.group("ProjectLeviathan - (Modules)");
-        console.log(`Estado de moduleOptions: %c${isModuleOptionsActive ? 'activo' : 'inactivo'}`, `color: ${isModuleOptionsActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
-        console.log(`Estado de moduleSurface: %c${isModuleSurfaceActive ? 'activo' : 'inactivo'}`, `color: ${isModuleSurfaceActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
+        const toState = (active) => active ? '✅ Activo' : '❌ Inactivo';
+        const tableData = {
+            '── Modules ──': { section: 'Module Options', status: toState(isModuleOptionsActive) },
+            ' ': { section: 'Module Surface', status: toState(isModuleSurfaceActive) },
+            '── Sections ──': { section: 'Home', status: toState(isSectionHomeActive) },
+            '  ': { section: 'Explore', status: toState(isSectionExploreActive) },
+            '   ': { section: 'Settings', status: toState(isSectionSettingsActive) },
+            '── Sub-sections (Settings) ──': { section: 'Profile', status: toState(isSectionProfileActive) },
+            '    ': { section: 'Login', status: toState(isSectionLoginActive) },
+            '     ': { section: 'Accessibility', status: toState(isSectionAccessibilityActive) },
+            '      ': { section: 'Purchase History', status: toState(isSectionPurchaseHistoryActive) },
+        };
+        console.group("ProjectLeviathan - State Overview");
+        console.table(tableData);
         console.groupEnd();
     };
 
-    const _setMenuOptionsClosed = () => {
+    const setMenuOptionsClosed = () => {
         moduleOptions.classList.add('disabled');
         moduleOptions.classList.remove('active');
+        menuContentOptions.classList.add('disabled');
+        menuContentOptions.classList.remove('active');
         isModuleOptionsActive = false;
     };
 
-    const _setMenuOptionsOpen = () => {
+    const setMenuOptionsOpen = () => {
         if (!allowMultipleActiveModules && isModuleSurfaceActive) {
-            _setMenuSurfaceClosed();
+            setMenuSurfaceClosed();
         }
         moduleOptions.classList.remove('disabled');
         moduleOptions.classList.add('active');
+        menuContentOptions.classList.remove('disabled');
         isModuleOptionsActive = true;
     };
 
@@ -48,15 +90,15 @@ function initMainController() {
             menuContentOptions.removeAttribute('style');
             moduleOptions.classList.remove('fade-in');
             moduleOptions.classList.add('fade-out');
-            menuContentOptions.classList.remove('is-open');
+            menuContentOptions.classList.remove('active');
 
             moduleOptions.addEventListener('animationend', () => {
-                _setMenuOptionsClosed();
+                setMenuOptionsClosed();
                 moduleOptions.classList.remove('fade-out');
                 isAnimating = false;
             }, { once: true });
         } else {
-            _setMenuOptionsClosed();
+            setMenuOptionsClosed();
         }
         return true;
     };
@@ -64,7 +106,7 @@ function initMainController() {
     const openMenuOptions = () => {
         if (isAnimating || isModuleOptionsActive) return false;
 
-        _setMenuOptionsOpen();
+        setMenuOptionsOpen();
 
         if (window.innerWidth <= 468 && menuContentOptions) {
             isAnimating = true;
@@ -72,52 +114,126 @@ function initMainController() {
             moduleOptions.classList.add('fade-in');
 
             requestAnimationFrame(() => {
-                menuContentOptions.classList.add('is-open');
+                menuContentOptions.classList.add('active');
             });
 
             moduleOptions.addEventListener('animationend', () => {
                 moduleOptions.classList.remove('fade-in');
                 isAnimating = false;
             }, { once: true });
+        } else {
+            menuContentOptions.classList.add('active');
         }
         return true;
     };
 
-    const _setMenuSurfaceClosed = () => {
+    const setMenuSurfaceClosed = () => {
         moduleSurface.classList.add('disabled');
         moduleSurface.classList.remove('active');
+        surfaceMain.classList.add('disabled');
+        surfaceMain.classList.remove('active');
+        surfaceSettings.classList.add('disabled');
+        surfaceSettings.classList.remove('active');
         isModuleSurfaceActive = false;
     };
 
-    const _setMenuSurfaceOpen = () => {
+    const setMenuSurfaceOpen = () => {
         if (!allowMultipleActiveModules && isModuleOptionsActive) {
-            _setMenuOptionsClosed();
+            setMenuOptionsClosed();
         }
         moduleSurface.classList.remove('disabled');
         moduleSurface.classList.add('active');
         isModuleSurfaceActive = true;
+
+        if (isSectionSettingsActive) {
+            surfaceSettings.classList.remove('disabled');
+            surfaceSettings.classList.add('active');
+        } else {
+            surfaceMain.classList.remove('disabled');
+            surfaceMain.classList.add('active');
+        }
     };
 
     const closeMenuSurface = () => {
         if (!isModuleSurfaceActive) return false;
-        _setMenuSurfaceClosed();
+        setMenuSurfaceClosed();
         return true;
     };
 
     const openMenuSurface = () => {
         if (isModuleSurfaceActive) return false;
-        _setMenuSurfaceOpen();
+        setMenuSurfaceOpen();
         return true;
+    };
+
+    const updateMainMenuButtons = (activeButton) => {
+        [toggleSectionHomeButton, toggleSectionExploreButton].forEach(button => {
+            button.classList.remove('active');
+        });
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    };
+
+    const setSectionActive = (sectionToShow, sectionsToHide, activeStateSetter) => {
+        sectionToShow.classList.remove('disabled');
+        sectionToShow.classList.add('active');
+        sectionsToHide.forEach(section => {
+            section.classList.add('disabled');
+            section.classList.remove('active');
+        });
+
+        isSectionHomeActive = activeStateSetter === 'home';
+        isSectionExploreActive = activeStateSetter === 'explore';
+        isSectionSettingsActive = activeStateSetter === 'settings';
+
+        if (activeStateSetter !== 'settings') {
+            isSectionProfileActive = false;
+            isSectionLoginActive = false;
+            isSectionAccessibilityActive = false;
+            isSectionPurchaseHistoryActive = false;
+        }
+
+        if (isSectionSettingsActive) {
+            surfaceMain.classList.add('disabled');
+            surfaceMain.classList.remove('active');
+            surfaceSettings.classList.remove('disabled');
+            surfaceSettings.classList.add('active');
+        } else {
+            surfaceSettings.classList.add('disabled');
+            surfaceSettings.classList.remove('active');
+            surfaceMain.classList.remove('disabled');
+            surfaceMain.classList.add('active');
+        }
+    };
+
+    const setSubSectionActive = (sectionToShow, sectionsToHide, buttonToActivate, buttonsToDeactivate, activeStateSetter) => {
+        sectionToShow.classList.remove('disabled');
+        sectionToShow.classList.add('active');
+        sectionsToHide.forEach(section => {
+            section.classList.add('disabled');
+            section.classList.remove('active');
+        });
+
+        buttonToActivate.classList.add('active');
+        buttonsToDeactivate.forEach(button => {
+            button.classList.remove('active');
+        });
+
+        isSectionProfileActive = activeStateSetter === 'profile';
+        isSectionLoginActive = activeStateSetter === 'login';
+        isSectionAccessibilityActive = activeStateSetter === 'accessibility';
+        isSectionPurchaseHistoryActive = activeStateSetter === 'purchaseHistory';
     };
 
     const handleResize = () => {
         if (isModuleOptionsActive) {
             if (window.innerWidth <= 468) {
-                if (!menuContentOptions.classList.contains('is-open')) {
-                    menuContentOptions.classList.add('is-open');
+                if (!menuContentOptions.classList.contains('active')) {
+                    menuContentOptions.classList.add('active');
                 }
             } else {
-                menuContentOptions.classList.remove('is-open');
+                menuContentOptions.classList.remove('active');
                 menuContentOptions.removeAttribute('style');
             }
         }
@@ -125,36 +241,108 @@ function initMainController() {
 
     toggleOptionsButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        const stateChanged = isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
-        if (stateChanged) updateLogState();
+        isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
+        updateLogState();
     });
 
     toggleSurfaceButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        const stateChanged = isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
-        if (stateChanged) updateLogState();
+        isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
+        updateLogState();
+    });
+
+    toggleSectionHomeButton.addEventListener('click', () => {
+        if (!isSectionHomeActive) {
+            setSectionActive(sectionHome, [sectionExplore, sectionSettings], 'home');
+            updateMainMenuButtons(toggleSectionHomeButton);
+            if (window.innerWidth <= 468) closeMenuSurface();
+            updateLogState();
+        }
+    });
+
+    toggleSectionExploreButton.addEventListener('click', () => {
+        if (!isSectionExploreActive) {
+            setSectionActive(sectionExplore, [sectionHome, sectionSettings], 'explore');
+            updateMainMenuButtons(toggleSectionExploreButton);
+            if (window.innerWidth <= 468) closeMenuSurface();
+            updateLogState();
+        }
+    });
+
+    toggleSectionSettingsButton.addEventListener('click', () => {
+        setSectionActive(sectionSettings, [sectionHome, sectionExplore], 'settings');
+        setSubSectionActive(sectionProfile, [sectionLogin, sectionAccessibility, sectionPurchaseHistory], toggleSectionProfileButton, [toggleSectionLoginButton, toggleSectionAccessibilityButton, toggleSectionPurchaseHistoryFromSettingsButton], 'profile');
+        closeMenuOptions();
+        updateLogState();
+    });
+
+    toggleSectionPurchaseHistoryButton.addEventListener('click', () => {
+        setSectionActive(sectionSettings, [sectionHome, sectionExplore], 'settings');
+        setSubSectionActive(sectionPurchaseHistory, [sectionProfile, sectionLogin, sectionAccessibility], toggleSectionPurchaseHistoryFromSettingsButton, [toggleSectionProfileButton, toggleSectionLoginButton, toggleSectionAccessibilityButton], 'purchaseHistory');
+        closeMenuOptions();
+        updateLogState();
+    });
+
+    toggleSectionHomeFromSettingsButton.addEventListener('click', () => {
+        setSectionActive(sectionHome, [sectionExplore, sectionSettings], 'home');
+        updateMainMenuButtons(toggleSectionHomeButton);
+        if (window.innerWidth <= 468) closeMenuSurface();
+        updateLogState();
+    });
+
+    toggleSectionProfileButton.addEventListener('click', () => {
+        if (isSectionProfileActive) return;
+        setSubSectionActive(sectionProfile, [sectionLogin, sectionAccessibility, sectionPurchaseHistory], toggleSectionProfileButton, [toggleSectionLoginButton, toggleSectionAccessibilityButton, toggleSectionPurchaseHistoryFromSettingsButton], 'profile');
+        if (window.innerWidth <= 468) closeMenuSurface();
+        updateLogState();
+    });
+
+    toggleSectionLoginButton.addEventListener('click', () => {
+        if (isSectionLoginActive) return;
+        setSubSectionActive(sectionLogin, [sectionProfile, sectionAccessibility, sectionPurchaseHistory], toggleSectionLoginButton, [toggleSectionProfileButton, toggleSectionAccessibilityButton, toggleSectionPurchaseHistoryFromSettingsButton], 'login');
+        if (window.innerWidth <= 468) closeMenuSurface();
+        updateLogState();
+    });
+
+    toggleSectionAccessibilityButton.addEventListener('click', () => {
+        if (isSectionAccessibilityActive) return;
+        setSubSectionActive(sectionAccessibility, [sectionProfile, sectionLogin, sectionPurchaseHistory], toggleSectionAccessibilityButton, [toggleSectionProfileButton, toggleSectionLoginButton, toggleSectionPurchaseHistoryFromSettingsButton], 'accessibility');
+        if (window.innerWidth <= 468) closeMenuSurface();
+        updateLogState();
+    });
+
+    toggleSectionPurchaseHistoryFromSettingsButton.addEventListener('click', () => {
+        if (isSectionPurchaseHistoryActive) return;
+        setSubSectionActive(sectionPurchaseHistory, [sectionProfile, sectionLogin, sectionAccessibility], toggleSectionPurchaseHistoryFromSettingsButton, [toggleSectionProfileButton, toggleSectionLoginButton, toggleSectionAccessibilityButton], 'purchaseHistory');
+        if (window.innerWidth <= 468) closeMenuSurface();
+        updateLogState();
     });
 
     if (closeOnClickOutside) {
         document.addEventListener('click', (e) => {
             if (isAnimating) return;
-            let stateChanged = false;
+            let optionsStateChanged = false;
+            let surfaceStateChanged = false;
 
             if (isModuleOptionsActive) {
                 if (window.innerWidth <= 468) {
-                    if (e.target === moduleOptions) stateChanged = closeMenuOptions();
+                    if (e.target === moduleOptions) {
+                        optionsStateChanged = closeMenuOptions();
+                    }
                 } else {
                     if (!moduleOptions.contains(e.target) && !toggleOptionsButton.contains(e.target)) {
-                        stateChanged = closeMenuOptions();
+                        optionsStateChanged = closeMenuOptions();
                     }
                 }
             }
 
             if (isModuleSurfaceActive && !moduleSurface.contains(e.target) && !toggleSurfaceButton.contains(e.target)) {
-                stateChanged = closeMenuSurface() || stateChanged;
+                surfaceStateChanged = closeMenuSurface();
             }
 
-            if (stateChanged) updateLogState();
+            if (optionsStateChanged || surfaceStateChanged) {
+                updateLogState();
+            }
         });
     }
 
@@ -163,7 +351,9 @@ function initMainController() {
             if (e.key === 'Escape') {
                 const optionsClosed = closeMenuOptions();
                 const surfaceClosed = closeMenuSurface();
-                if (optionsClosed || surfaceClosed) updateLogState();
+                if (optionsClosed || surfaceClosed) {
+                    updateLogState();
+                }
             }
         });
     }
@@ -173,6 +363,4 @@ function initMainController() {
     updateLogState();
 }
 
-export {
-    initMainController
-};
+export { initMainController };

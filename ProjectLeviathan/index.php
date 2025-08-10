@@ -19,6 +19,16 @@
                 <div class="general-content-bottom">
                     <div class="general-content-scrolleable">
                         <?php include 'includes/modules/module-surface.php'; ?>
+                        <div class="section-container">
+                            <div class="section-content active" data-section="sectionHome">1</div>
+                            <div class="section-content disabled" data-section="sectionExplore">2</div>
+                            <div class="section-content disabled" data-section="sectionSettings">
+                                <div class="section-content active" data-section="sectionProfile">Tu Perfil</div>
+                                <div class="section-content disabled" data-section="sectionLogin">Iniciar Sesión</div>
+                                <div class="section-content disabled" data-section="sectionAccessibility">Accesibilidad</div>
+                                <div class="section-content disabled" data-section="sectionPurchaseHistory">Historial de Compras</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
