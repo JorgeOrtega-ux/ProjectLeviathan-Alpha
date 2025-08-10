@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* --- Reset y Estilos Base --- */
+/* ... (resto de los estilos base, layout, header, etc. sin cambios) ... */
 * {
     margin: 0;
     padding: 0;
@@ -143,32 +143,33 @@ body {
     box-sizing: border-box;
     border: 2px solid #ffffff;
 }
-
+.header-button:hover {
+    background-color: #f5f5fa;
+}
 /* Fondos por rango */
 .rank-owner .profile-content {
-    background-color: #8b2635;
+    background-color: #ff6b35; /* Color naranja/rojo del borde */
 }
 
 .rank-admin .profile-content {
-    background-color: #8b2635;
+    background-color: #dc3545; /* Color del borde de admin */
 }
 
 .rank-manager .profile-content {
-    background-color: #1a5e2a;
+    background-color: #28a745; /* Color del borde de manager */
 }
 
 .rank-moderator .profile-content {
-    background-color: #004080;
+    background-color: #007bff; /* Color del borde de moderator */
 }
 
 .rank-support .profile-content {
-    background-color: #b8860b;
+    background-color: #ffc107; /* Color del borde de support */
 }
 
 .rank-user .profile-content {
-    background-color: #495057;
+    background-color: #6c757d; /* Color del borde de user */
 }
-
 /* Decoraciones de borde por rango */
 .rank-owner {
     background: conic-gradient(from -120deg,
@@ -197,6 +198,7 @@ body {
 .rank-user {
     background: #6c757d;
 }
+
 
 /* --- Módulos --- */
 .module-content.module-options {
@@ -275,6 +277,7 @@ body {
     text-overflow: ellipsis;
 }
 
+
 /* --- Estados --- */
 .disabled {
     display: none;
@@ -321,6 +324,15 @@ body {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         max-height: 80%;
+
+        /* --- LÓGICA DE ANIMACIÓN CON CLASES --- */
+        transform: translateY(100%);
+        transition: transform 0.3s ease-out;
+    }
+
+    /* La clase .is-open mueve el menú a su posición visible */
+    .module-options .menu-content.is-open {
+        transform: translateY(0);
     }
 
     .menu-body {
@@ -341,4 +353,23 @@ body {
     scrollbar-width: thin;
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
+}
+
+/* --- Animaciones de Fundido para el Módulo --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
 }

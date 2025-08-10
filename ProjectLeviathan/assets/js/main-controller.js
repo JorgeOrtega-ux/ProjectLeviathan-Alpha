@@ -4,7 +4,6 @@ function initMainController() {
     let closeOnClickOutside = true;
     let closeOnEscape = true;
     let isModuleOptionsActive = false;
-    // **LA NUEVA BANDERA DE ESTADO**
     let isAnimating = false;
 
     const toggleButton = document.querySelector('[data-action="toggleModuleOptions"]');
@@ -14,95 +13,76 @@ function initMainController() {
 
     const menuContent = moduleOptions.querySelector('.menu-content');
 
-    const logState = (message) => {
-        console.groupCollapsed('ProjectLeviathan - (Modules)');
-        console.log(`${message} -> isModuleOptionsActive: ${isModuleOptionsActive}, isAnimating: ${isAnimating}`);
-        console.groupEnd();
-    };
-
     const _setMenuClosed = () => {
         moduleOptions.classList.add('disabled');
         moduleOptions.classList.remove('active');
-        if (isModuleOptionsActive) {
-            isModuleOptionsActive = false;
-            logState('Module updated');
-        }
+        isModuleOptionsActive = false;
     };
 
     const _setMenuOpen = () => {
         moduleOptions.classList.remove('disabled');
         moduleOptions.classList.add('active');
-        if (!isModuleOptionsActive) {
-            isModuleOptionsActive = true;
-            logState('Module updated');
-        }
+        isModuleOptionsActive = true;
     };
 
     const closeMenu = () => {
-        // **Verificar si ya está animando o si ya está cerrado**
         if (isAnimating || !isModuleOptionsActive) return;
 
         if (window.innerWidth <= 468 && menuContent) {
-            isAnimating = true; // **Bloquear interacciones**
-            logState('Animation START - Closing');
+            isAnimating = true;
 
-            menuContent.style.transition = 'transform 0.3s ease-out';
-            menuContent.style.transform = 'translateY(100%)';
+            menuContent.removeAttribute('style');
+            
+            // 1. Asegurar que solo la animación de salida esté presente.
+            moduleOptions.classList.remove('fade-in');
+            moduleOptions.classList.add('fade-out');
+            menuContent.classList.remove('is-open');
 
-            const onTransitionEnd = () => {
+            // 2. Esperar el fin de la animación para hacer la limpieza completa.
+            moduleOptions.addEventListener('animationend', () => {
                 _setMenuClosed();
-                menuContent.removeAttribute('style');
-                menuContent.removeEventListener('transitionend', onTransitionEnd);
-                isAnimating = false; // **Desbloquear interacciones**
-                logState('Animation END - Closing');
-            };
-            menuContent.addEventListener('transitionend', onTransitionEnd);
+                moduleOptions.classList.remove('fade-out'); // Limpiar la clase de animación.
+                isAnimating = false;
+            }, { once: true });
         } else {
             _setMenuClosed();
         }
     };
 
     const openMenu = () => {
-        // **Verificar si ya está animando o si ya está abierto**
         if (isAnimating || isModuleOptionsActive) return;
-
+        
         if (window.innerWidth <= 468 && menuContent) {
-            isAnimating = true; // **Bloquear interacciones**
-            logState('Animation START - Opening');
-
-            menuContent.style.transition = 'none';
-            menuContent.style.transform = 'translateY(100%)';
+            isAnimating = true;
             _setMenuOpen();
 
-            menuContent.offsetHeight;
+            // 1. Asegurar que solo la animación de entrada esté presente.
+            moduleOptions.classList.remove('fade-out');
+            moduleOptions.classList.add('fade-in');
+            
+            requestAnimationFrame(() => {
+                menuContent.classList.add('is-open');
+            });
 
-            menuContent.style.transition = 'transform 0.3s ease-out';
-            menuContent.style.transform = 'translateY(0)';
-
-            const onTransitionEnd = () => {
-                menuContent.removeAttribute('style');
-                menuContent.removeEventListener('transitionend', onTransitionEnd);
-                isAnimating = false; // **Desbloquear interacciones**
-                logState('Animation END - Opening');
-            };
-            menuContent.addEventListener('transitionend', onTransitionEnd);
+            // 2. Esperar el fin de la animación para limpiar la clase y desbloquear.
+            moduleOptions.addEventListener('animationend', () => {
+                moduleOptions.classList.remove('fade-in'); // Limpiar la clase de animación.
+                isAnimating = false;
+            }, { once: true });
         } else {
             _setMenuOpen();
         }
     };
 
+    // --- EVENT LISTENERS ---
     toggleButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        if (moduleOptions.classList.contains('disabled')) {
-            openMenu();
-        } else {
-            closeMenu();
-        }
+        isModuleOptionsActive ? closeMenu() : openMenu();
     });
 
     if (closeOnClickOutside) {
         document.addEventListener('click', (e) => {
-            if (isAnimating || !isModuleOptionsActive) return; // **Protección añadida**
+            if (isAnimating || !isModuleOptionsActive) return;
             if (window.innerWidth <= 468) {
                 if (e.target === moduleOptions) closeMenu();
             } else {
@@ -113,14 +93,11 @@ function initMainController() {
 
     if (closeOnEscape) {
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeMenu(); // La lógica de `closeMenu` ya contiene la protección
+            if (e.key === 'Escape') closeMenu();
         });
     }
 
-    // **Pasamos una función para que el drag-controller sepa si se está animando**
     initDragController(closeMenu, () => isAnimating);
-
-    logState('Initial state');
 }
 
 export { initMainController };
