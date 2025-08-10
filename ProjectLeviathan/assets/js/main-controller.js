@@ -18,6 +18,13 @@ function initMainController() {
 
     const menuContentOptions = moduleOptions.querySelector('.menu-content');
 
+    const updateLogState = () => {
+        console.group("ProjectLeviathan - (Modules)");
+        console.log(`Estado de moduleOptions: %c${isModuleOptionsActive ? 'activo' : 'inactivo'}`, `color: ${isModuleOptionsActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
+        console.log(`Estado de moduleSurface: %c${isModuleSurfaceActive ? 'activo' : 'inactivo'}`, `color: ${isModuleSurfaceActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
+        console.groupEnd();
+    };
+
     const _setMenuOptionsClosed = () => {
         moduleOptions.classList.add('disabled');
         moduleOptions.classList.remove('active');
@@ -118,45 +125,52 @@ function initMainController() {
 
     toggleOptionsButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
+        const stateChanged = isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
+        if (stateChanged) updateLogState();
     });
 
     toggleSurfaceButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
+        const stateChanged = isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
+        if (stateChanged) updateLogState();
     });
 
     if (closeOnClickOutside) {
         document.addEventListener('click', (e) => {
             if (isAnimating) return;
+            let stateChanged = false;
 
             if (isModuleOptionsActive) {
                 if (window.innerWidth <= 468) {
-                    if (e.target === moduleOptions) closeMenuOptions();
+                    if (e.target === moduleOptions) stateChanged = closeMenuOptions();
                 } else {
                     if (!moduleOptions.contains(e.target) && !toggleOptionsButton.contains(e.target)) {
-                        closeMenuOptions();
+                        stateChanged = closeMenuOptions();
                     }
                 }
             }
 
             if (isModuleSurfaceActive && !moduleSurface.contains(e.target) && !toggleSurfaceButton.contains(e.target)) {
-                closeMenuSurface();
+                stateChanged = closeMenuSurface() || stateChanged;
             }
+
+            if (stateChanged) updateLogState();
         });
     }
 
     if (closeOnEscape) {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                closeMenuOptions();
-                closeMenuSurface();
+                const optionsClosed = closeMenuOptions();
+                const surfaceClosed = closeMenuSurface();
+                if (optionsClosed || surfaceClosed) updateLogState();
             }
         });
     }
 
     window.addEventListener('resize', handleResize);
     initDragController(closeMenuOptions, () => isAnimating);
+    updateLogState();
 }
 
 export {
