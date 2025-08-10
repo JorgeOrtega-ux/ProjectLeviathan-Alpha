@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* ... (resto de los estilos base, layout, header, etc. sin cambios) ... */
 * {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    font-family: "Roboto Condensed", sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    font-family: "Roboto Condensed", sans-serif;
 }
 
 html,
 body {
-    width: 100%;
     height: 100%;
+    width: 100%;
 }
 
 body {
@@ -20,64 +19,62 @@ body {
 }
 
 .body-title {
+    color: #000000;
     font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: 0.0178571429em;
-    color: #000000;
 }
 
-/* --- Layout Principal --- */
 .page-wrapper {
-    width: 100%;
     height: 100%;
+    width: 100%;
 }
 
 .main-content {
+    background-color: #f5f5fa;
     display: flex;
     flex-direction: row;
     gap: 8px;
-    width: 100%;
     height: 100%;
     padding: 12px;
-    background-color: #f5f5fa;
+    width: 100%;
 }
 
 .general-content {
-    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #00000020;
+    border-radius: 12px;
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    background-color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid #00000020;
+    position: relative;
 }
 
 .general-content-top {
-    width: 100%;
-    height: auto;
     border-bottom: 1px solid #00000020;
+    height: auto;
+    width: 100%;
     z-index: 999;
 }
 
 .general-content-bottom {
-    position: relative;
     display: flex;
     flex: 1;
     overflow: hidden;
+    position: relative;
 }
 
-/* --- Cabecera --- */
 .header {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: auto;
-    padding: 8px;
-    gap: 8px;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
+    display: flex;
+    gap: 8px;
+    height: auto;
+    justify-content: space-between;
+    padding: 8px;
+    position: relative;
+    width: 100%;
 }
 
 .header-left {
@@ -86,97 +83,93 @@ body {
 }
 
 .header-right {
-    position: relative;
-    z-index: 1;
     display: flex;
     flex: 0 0 auto;
     gap: 8px;
+    position: relative;
+    z-index: 1;
 }
 
 .header-item {
     display: flex;
     flex-direction: row;
-    width: auto;
-    height: 100%;
     gap: 8px;
+    height: 100%;
+    width: auto;
 }
 
 .header-button {
+    align-items: center;
+    background-color: transparent;
+    border: 1px solid #00000020;
+    border-radius: 8px;
+    cursor: pointer;
     display: flex;
     flex: 0 0 auto;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
     height: 40px;
-    background-color: transparent;
-    border-radius: 8px;
-    border: 1px solid #00000020;
-    cursor: pointer;
+    justify-content: center;
     outline: none;
     user-select: none;
+    width: 40px;
 }
 
-/* --- Estilos de Perfil y Rango --- */
 .profile-container {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
     box-sizing: border-box;
+    border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
     padding: 2px;
+    width: 40px;
 }
 
 .profile-content {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 100%;
+    border: 2px solid #ffffff;
     border-radius: 50%;
+    box-sizing: border-box;
     color: #ffffff;
+    display: flex;
     font-size: 18px;
     font-weight: 500;
+    height: 100%;
+    justify-content: center;
     user-select: none;
-    box-sizing: border-box;
-    border: 2px solid #ffffff;
+    width: 100%;
 }
+
 .header-button:hover {
     background-color: #f5f5fa;
 }
-/* Fondos por rango */
+
 .rank-owner .profile-content {
-    background-color: #ff6b35; /* Color naranja/rojo del borde */
+    background-color: #ff6b35;
 }
 
 .rank-admin .profile-content {
-    background-color: #dc3545; /* Color del borde de admin */
+    background-color: #dc3545;
 }
 
 .rank-manager .profile-content {
-    background-color: #28a745; /* Color del borde de manager */
+    background-color: #28a745;
 }
 
 .rank-moderator .profile-content {
-    background-color: #007bff; /* Color del borde de moderator */
+    background-color: #007bff;
 }
 
 .rank-support .profile-content {
-    background-color: #ffc107; /* Color del borde de support */
+    background-color: #ffc107;
 }
 
 .rank-user .profile-content {
-    background-color: #6c757d; /* Color del borde de user */
+    background-color: #6c757d;
 }
-/* Decoraciones de borde por rango */
+
 .rank-owner {
-    background: conic-gradient(from -120deg,
-            #fbbc04 0deg 60deg,
-            #ff6b35 60deg 150deg,
-            #4285f4 150deg 270deg,
-            #34a853 270deg 360deg);
+    background: conic-gradient(from -120deg, #fbbc04 0deg 60deg, #ff6b35 60deg 150deg, #4285f4 150deg 270deg, #34a853 270deg 360deg);
 }
 
 .rank-admin {
@@ -199,31 +192,66 @@ body {
     background: #6c757d;
 }
 
-
-/* --- Módulos --- */
 .module-content.module-options {
-    position: absolute;
-    top: calc(100% + 5px);
-    right: 5px;
-    z-index: 999;
-    width: 320px;
     height: auto;
+    position: absolute;
+    right: 5px;
+    top: calc(100% + 5px);
+    width: 320px;
+    z-index: 999;
+}
+
+.module-content.module-surface {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    padding: 8px;
+    z-index: 999;
+}.general-content-scrolleable {
+    width: 100%;
+    height: 100%;
+}
+.menu-link:not(.active):hover {
+    background-color: #f5f5fa;
+}
+
+.menu-link.active {
+    background-color: #000000;
+    color: #fff;
+}
+
+.module-content.module-surface .menu-list {
+    gap: 8px;
+}
+.module-surface .menu-content {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    width: 285px;
+    height: 100%;  box-shadow: 0 4px 12px #00000020;
+    padding: 8px;
+    gap: 8px;
+    background-color: #ffffff;
 }
 
 .module-options .menu-content {
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #00000020;
+    color: #000000;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-height: 450px;
     gap: 0;
-    color: #000000;
-    background-color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    box-shadow: 0 4px 12px #00000020;
+    max-height: 450px;
+    width: 100%;
 }
 
-/* --- Menú --- */
 .menu-body {
     flex: 1;
     padding: 8px;
@@ -232,53 +260,47 @@ body {
 .menu-list {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: auto;
     gap: 4px;
+    height: auto;
     user-select: none;
+    width: 100%;
 }
 
 .menu-link {
+    border-radius: 8px;
+    color: #000000;
+    cursor: pointer;
     display: flex;
     flex-direction: row;
-    width: 100%;
     height: 40px;
-    color: #000000;
     position: relative;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.menu-link:hover {
-    background-color: #f5f5fa;
+    width: 100%;
 }
 
 .menu-link-icon {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 100%;
+    display: flex;
     flex-shrink: 0;
+    height: 100%;
+    justify-content: center;
+    width: 45px;
 }
 
 .menu-link-text {
+    align-self: center;
     display: block;
     flex: 1 1 auto;
-    text-align: start;
     overflow: hidden;
-    align-self: center;
+    text-align: start;
 }
 
 .menu-link-text span {
     display: block;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-
-/* --- Estados --- */
 .disabled {
     display: none;
 }
@@ -287,36 +309,52 @@ body {
     display: flex;
 }
 
-/* --- Elementos UI Móviles --- */
 .pill-container {
     display: none;
     justify-content: center;
-    width: 100%;
     padding: 8px 0;
+    width: 100%;
 }
 
 .drag-handle {
-    position: relative;
-    display: flex;
-    width: 52px;
-    height: 4px;
     background-color: #f5f5fa;
     border-radius: 50px;
     cursor: pointer;
+    display: flex;
+    height: 4px;
+    position: relative;
+    width: 52px;
 }
 
-/* --- Media Queries --- */
+.overflow-y {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scrollbar-color: #00000080 transparent;
+    scrollbar-width: thin;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
 @media (max-width: 468px) {
     .module-content.module-options {
+        align-items: flex-end;
+        background-color: #00000080;
+        height: 100%;
+        justify-content: center;
+        left: 0;
         position: fixed;
         top: 0;
-        left: 0;
-        z-index: 999;
-        justify-content: center;
-        align-items: flex-end;
         width: 100%;
-        height: 100%;
-        background-color: #00000080;
+        z-index: 999;
     }
 
     .module-options .menu-content {
@@ -324,13 +362,10 @@ body {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         max-height: 80%;
-
-        /* --- LÓGICA DE ANIMACIÓN CON CLASES --- */
         transform: translateY(100%);
         transition: transform 0.3s ease-out;
     }
 
-    /* La clase .is-open mueve el menú a su posición visible */
     .module-options .menu-content.is-open {
         transform: translateY(0);
     }
@@ -344,32 +379,22 @@ body {
     }
 }
 
-/* --- Clases de Utilidad --- */
-.overflow-y {
-    overflow-x: hidden;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-    scrollbar-color: #00000080 transparent;
-    scrollbar-width: thin;
-    overscroll-behavior: none;
-    -webkit-overflow-scrolling: touch;
-}
-
-/* --- Animaciones de Fundido para el Módulo --- */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeOut {
-    from { opacity: 1; }
-    to { opacity: 0; }
-}
+    from {
+        opacity: 1;
+    }
 
-.fade-in {
-    animation: fadeIn 0.3s ease-out forwards;
-}
-
-.fade-out {
-    animation: fadeOut 0.3s ease-out forwards;
+    to {
+        opacity: 0;
+    }
 }

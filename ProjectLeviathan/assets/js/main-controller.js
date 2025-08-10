@@ -13,16 +13,26 @@ function initMainController() {
 
     const menuContent = moduleOptions.querySelector('.menu-content');
 
+    // Función para actualizar y mostrar el estado en la consola
+    const updateLogState = () => {
+        console.group("ProjectLeviathan - (Modules)");
+        console.log(`Estado de moduleOptions: %c${isModuleOptionsActive ? 'activo' : 'inactivo'}`, `color: ${isModuleOptionsActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
+        console.groupEnd();
+    };
+
+
     const _setMenuClosed = () => {
         moduleOptions.classList.add('disabled');
         moduleOptions.classList.remove('active');
         isModuleOptionsActive = false;
+        updateLogState(); // Actualizar log
     };
 
     const _setMenuOpen = () => {
         moduleOptions.classList.remove('disabled');
         moduleOptions.classList.add('active');
         isModuleOptionsActive = true;
+        updateLogState(); // Actualizar log
     };
 
     const closeMenu = () => {
@@ -30,20 +40,18 @@ function initMainController() {
 
         if (window.innerWidth <= 468 && menuContent) {
             isAnimating = true;
-
             menuContent.removeAttribute('style');
-            
-            // 1. Asegurar que solo la animación de salida esté presente.
             moduleOptions.classList.remove('fade-in');
             moduleOptions.classList.add('fade-out');
             menuContent.classList.remove('is-open');
 
-            // 2. Esperar el fin de la animación para hacer la limpieza completa.
             moduleOptions.addEventListener('animationend', () => {
                 _setMenuClosed();
-                moduleOptions.classList.remove('fade-out'); // Limpiar la clase de animación.
+                moduleOptions.classList.remove('fade-out');
                 isAnimating = false;
-            }, { once: true });
+            }, {
+                once: true
+            });
         } else {
             _setMenuClosed();
         }
@@ -51,30 +59,28 @@ function initMainController() {
 
     const openMenu = () => {
         if (isAnimating || isModuleOptionsActive) return;
-        
+
         if (window.innerWidth <= 468 && menuContent) {
             isAnimating = true;
             _setMenuOpen();
-
-            // 1. Asegurar que solo la animación de entrada esté presente.
             moduleOptions.classList.remove('fade-out');
             moduleOptions.classList.add('fade-in');
-            
+
             requestAnimationFrame(() => {
                 menuContent.classList.add('is-open');
             });
 
-            // 2. Esperar el fin de la animación para limpiar la clase y desbloquear.
             moduleOptions.addEventListener('animationend', () => {
-                moduleOptions.classList.remove('fade-in'); // Limpiar la clase de animación.
+                moduleOptions.classList.remove('fade-in');
                 isAnimating = false;
-            }, { once: true });
+            }, {
+                once: true
+            });
         } else {
             _setMenuOpen();
         }
     };
 
-    // --- EVENT LISTENERS ---
     toggleButton.addEventListener('click', (e) => {
         e.stopPropagation();
         isModuleOptionsActive ? closeMenu() : openMenu();
@@ -98,6 +104,9 @@ function initMainController() {
     }
 
     initDragController(closeMenu, () => isAnimating);
+    updateLogState(); // Estado inicial
 }
 
-export { initMainController };
+export {
+    initMainController
+};

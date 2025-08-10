@@ -1,7 +1,7 @@
 <div class="header">
     <div class="header-left">
         <div class="header-item">
-            <div class="header-button">
+            <div class="header-button" data-action="toggleModuleSurface">
                 <span class="material-symbols-rounded">menu</span>
             </div>
         </div>

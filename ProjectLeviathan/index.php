@@ -16,7 +16,32 @@
                 <div class="general-content-top">
                     <?php include 'includes/layouts/header.php'; ?>
                 </div>
-                <div class="general-content-bottom"></div>
+                <div class="general-content-bottom">
+                    <div class="general-content-scrolleable">
+                        <div class="module-content module-surface body-title disabled">
+                            <div class="menu-content">
+                                <div class="menu-list">
+                                    <div class="menu-link active">
+                                        <div class="menu-link-icon">
+                                            <span class="material-symbols-rounded">home</span>
+                                        </div>
+                                        <div class="menu-link-text">
+                                            <span>Pagina principal</span>
+                                        </div>
+                                    </div>
+                                    <div class="menu-link">
+                                        <div class="menu-link-icon">
+                                            <span class="material-symbols-rounded">settings</span>
+                                        </div>
+                                        <div class="menu-link-text">
+                                            <span>Explorar comunidades</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
