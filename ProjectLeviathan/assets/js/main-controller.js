@@ -1,17 +1,14 @@
 import { initDragController } from './drag-controller.js';
 
 function initMainController() {
-    // --- Variables de configuración ---
     let closeOnClickOutside = true;
     let closeOnEscape = true;
     let allowMultipleActiveModules = false;
 
-    // --- Variables de estado ---
     let isModuleOptionsActive = false;
     let isModuleSurfaceActive = false;
     let isAnimating = false;
 
-    // --- Selectores de elementos ---
     const toggleOptionsButton = document.querySelector('[data-action="toggleModuleOptions"]');
     const moduleOptions = document.querySelector('[data-module="moduleOptions"]');
     const toggleSurfaceButton = document.querySelector('[data-action="toggleModuleSurface"]');
@@ -21,14 +18,6 @@ function initMainController() {
 
     const menuContentOptions = moduleOptions.querySelector('.menu-content');
 
-    const updateLogState = () => {
-        console.group("ProjectLeviathan - (Modules)");
-        console.log(`Estado de moduleOptions: %c${isModuleOptionsActive ? 'activo' : 'inactivo'}`, `color: ${isModuleOptionsActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
-        console.log(`Estado de moduleSurface: %c${isModuleSurfaceActive ? 'activo' : 'inactivo'}`, `color: ${isModuleSurfaceActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
-        console.groupEnd();
-    };
-
-    // --- Lógica para ModuleOptions ---
     const _setMenuOptionsClosed = () => {
         moduleOptions.classList.add('disabled');
         moduleOptions.classList.remove('active');
@@ -68,7 +57,7 @@ function initMainController() {
     const openMenuOptions = () => {
         if (isAnimating || isModuleOptionsActive) return false;
 
-        _setMenuOptionsOpen(); // Establece el estado base
+        _setMenuOptionsOpen();
 
         if (window.innerWidth <= 468 && menuContentOptions) {
             isAnimating = true;
@@ -87,7 +76,6 @@ function initMainController() {
         return true;
     };
 
-    // --- Lógica para ModuleSurface ---
     const _setMenuSurfaceClosed = () => {
         moduleSurface.classList.add('disabled');
         moduleSurface.classList.remove('active');
@@ -115,72 +103,60 @@ function initMainController() {
         return true;
     };
 
-    // --- Manejador de redimensionamiento ---
     const handleResize = () => {
         if (isModuleOptionsActive) {
             if (window.innerWidth <= 468) {
-                // Si estamos en móvil y el menú no tiene 'is-open', añadirla.
                 if (!menuContentOptions.classList.contains('is-open')) {
                     menuContentOptions.classList.add('is-open');
                 }
             } else {
-                // Si estamos en escritorio, quitar la clase 'is-open' y cualquier estilo en línea.
                 menuContentOptions.classList.remove('is-open');
-                menuContentOptions.removeAttribute('style'); // Limpia estilos de transformaciones de drag-controller.
+                menuContentOptions.removeAttribute('style');
             }
         }
     };
 
-    // --- Eventos ---
     toggleOptionsButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        const stateChanged = isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
-        if (stateChanged) updateLogState();
+        isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
     });
 
     toggleSurfaceButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        const stateChanged = isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
-        if (stateChanged) updateLogState();
+        isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
     });
 
     if (closeOnClickOutside) {
         document.addEventListener('click', (e) => {
             if (isAnimating) return;
-            let stateChanged = false;
 
             if (isModuleOptionsActive) {
                 if (window.innerWidth <= 468) {
-                    if (e.target === moduleOptions) stateChanged = closeMenuOptions();
+                    if (e.target === moduleOptions) closeMenuOptions();
                 } else {
                     if (!moduleOptions.contains(e.target) && !toggleOptionsButton.contains(e.target)) {
-                        stateChanged = closeMenuOptions();
+                        closeMenuOptions();
                     }
                 }
             }
 
             if (isModuleSurfaceActive && !moduleSurface.contains(e.target) && !toggleSurfaceButton.contains(e.target)) {
-                stateChanged = closeMenuSurface() || stateChanged;
+                closeMenuSurface();
             }
-
-            if (stateChanged) updateLogState();
         });
     }
 
     if (closeOnEscape) {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const optionsClosed = closeMenuOptions();
-                const surfaceClosed = closeMenuSurface();
-                if (optionsClosed || surfaceClosed) updateLogState();
+                closeMenuOptions();
+                closeMenuSurface();
             }
         });
     }
 
-    // --- Inicializadores ---
-    window.addEventListener('resize', handleResize); // <--- NUEVO
+    window.addEventListener('resize', handleResize);
     initDragController(closeMenuOptions, () => isAnimating);
-    updateLogState(); // Estado inicial
 }
 
 export {

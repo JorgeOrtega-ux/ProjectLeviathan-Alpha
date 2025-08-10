@@ -34,15 +34,10 @@ function initDragController(closeMenuCallback, isAnimatingCallback) {
         const dragDistance = menuContent.getBoundingClientRect().top - initialMenuTop;
         const menuHeight = menuContent.offsetHeight;
 
-        // --- INICIO DE LA CORRECCIÓN ---
-
-        // Si la distancia es casi nula, fue un clic. Limpiar y salir.
         if (Math.abs(dragDistance) < 5) {
             menuContent.removeAttribute('style');
             return;
         }
-
-        // --- FIN DE LA CORRECCIÓN ---
 
         if (dragDistance > menuHeight * 0.4) {
             if (typeof closeMenuCallback === 'function') {
