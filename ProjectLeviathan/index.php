@@ -18,7 +18,7 @@
                 </div>
                 <div class="general-content-bottom">
                     <div class="general-content-scrolleable">
-                        <div class="module-content module-surface body-title disabled">
+                        <div class="module-content module-surface body-title disabled" data-module="moduleSurface">
                             <div class="menu-content">
                                 <div class="menu-list">
                                     <div class="menu-link active">

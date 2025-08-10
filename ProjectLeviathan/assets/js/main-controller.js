@@ -1,109 +1,185 @@
 import { initDragController } from './drag-controller.js';
 
 function initMainController() {
+    // --- Variables de configuración ---
     let closeOnClickOutside = true;
     let closeOnEscape = true;
+    let allowMultipleActiveModules = false;
+
+    // --- Variables de estado ---
     let isModuleOptionsActive = false;
+    let isModuleSurfaceActive = false;
     let isAnimating = false;
 
-    const toggleButton = document.querySelector('[data-action="toggleModuleOptions"]');
+    // --- Selectores de elementos ---
+    const toggleOptionsButton = document.querySelector('[data-action="toggleModuleOptions"]');
     const moduleOptions = document.querySelector('[data-module="moduleOptions"]');
+    const toggleSurfaceButton = document.querySelector('[data-action="toggleModuleSurface"]');
+    const moduleSurface = document.querySelector('[data-module="moduleSurface"]');
 
-    if (!toggleButton || !moduleOptions) return;
+    if (!toggleOptionsButton || !moduleOptions || !toggleSurfaceButton || !moduleSurface) return;
 
-    const menuContent = moduleOptions.querySelector('.menu-content');
+    const menuContentOptions = moduleOptions.querySelector('.menu-content');
 
-    // Función para actualizar y mostrar el estado en la consola
     const updateLogState = () => {
         console.group("ProjectLeviathan - (Modules)");
         console.log(`Estado de moduleOptions: %c${isModuleOptionsActive ? 'activo' : 'inactivo'}`, `color: ${isModuleOptionsActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
+        console.log(`Estado de moduleSurface: %c${isModuleSurfaceActive ? 'activo' : 'inactivo'}`, `color: ${isModuleSurfaceActive ? '#28a745' : '#dc3545'}; font-weight: bold;`);
         console.groupEnd();
     };
 
-
-    const _setMenuClosed = () => {
+    // --- Lógica para ModuleOptions ---
+    const _setMenuOptionsClosed = () => {
         moduleOptions.classList.add('disabled');
         moduleOptions.classList.remove('active');
         isModuleOptionsActive = false;
-        updateLogState(); // Actualizar log
     };
 
-    const _setMenuOpen = () => {
+    const _setMenuOptionsOpen = () => {
+        if (!allowMultipleActiveModules && isModuleSurfaceActive) {
+            _setMenuSurfaceClosed();
+        }
         moduleOptions.classList.remove('disabled');
         moduleOptions.classList.add('active');
         isModuleOptionsActive = true;
-        updateLogState(); // Actualizar log
     };
 
-    const closeMenu = () => {
-        if (isAnimating || !isModuleOptionsActive) return;
+    const closeMenuOptions = () => {
+        if (isAnimating || !isModuleOptionsActive) return false;
 
-        if (window.innerWidth <= 468 && menuContent) {
+        if (window.innerWidth <= 468 && menuContentOptions) {
             isAnimating = true;
-            menuContent.removeAttribute('style');
+            menuContentOptions.removeAttribute('style');
             moduleOptions.classList.remove('fade-in');
             moduleOptions.classList.add('fade-out');
-            menuContent.classList.remove('is-open');
+            menuContentOptions.classList.remove('is-open');
 
             moduleOptions.addEventListener('animationend', () => {
-                _setMenuClosed();
+                _setMenuOptionsClosed();
                 moduleOptions.classList.remove('fade-out');
                 isAnimating = false;
-            }, {
-                once: true
-            });
+            }, { once: true });
         } else {
-            _setMenuClosed();
+            _setMenuOptionsClosed();
         }
+        return true;
     };
 
-    const openMenu = () => {
-        if (isAnimating || isModuleOptionsActive) return;
+    const openMenuOptions = () => {
+        if (isAnimating || isModuleOptionsActive) return false;
 
-        if (window.innerWidth <= 468 && menuContent) {
+        _setMenuOptionsOpen(); // Establece el estado base
+
+        if (window.innerWidth <= 468 && menuContentOptions) {
             isAnimating = true;
-            _setMenuOpen();
             moduleOptions.classList.remove('fade-out');
             moduleOptions.classList.add('fade-in');
 
             requestAnimationFrame(() => {
-                menuContent.classList.add('is-open');
+                menuContentOptions.classList.add('is-open');
             });
 
             moduleOptions.addEventListener('animationend', () => {
                 moduleOptions.classList.remove('fade-in');
                 isAnimating = false;
-            }, {
-                once: true
-            });
-        } else {
-            _setMenuOpen();
+            }, { once: true });
+        }
+        return true;
+    };
+
+    // --- Lógica para ModuleSurface ---
+    const _setMenuSurfaceClosed = () => {
+        moduleSurface.classList.add('disabled');
+        moduleSurface.classList.remove('active');
+        isModuleSurfaceActive = false;
+    };
+
+    const _setMenuSurfaceOpen = () => {
+        if (!allowMultipleActiveModules && isModuleOptionsActive) {
+            _setMenuOptionsClosed();
+        }
+        moduleSurface.classList.remove('disabled');
+        moduleSurface.classList.add('active');
+        isModuleSurfaceActive = true;
+    };
+
+    const closeMenuSurface = () => {
+        if (!isModuleSurfaceActive) return false;
+        _setMenuSurfaceClosed();
+        return true;
+    };
+
+    const openMenuSurface = () => {
+        if (isModuleSurfaceActive) return false;
+        _setMenuSurfaceOpen();
+        return true;
+    };
+
+    // --- Manejador de redimensionamiento ---
+    const handleResize = () => {
+        if (isModuleOptionsActive) {
+            if (window.innerWidth <= 468) {
+                // Si estamos en móvil y el menú no tiene 'is-open', añadirla.
+                if (!menuContentOptions.classList.contains('is-open')) {
+                    menuContentOptions.classList.add('is-open');
+                }
+            } else {
+                // Si estamos en escritorio, quitar la clase 'is-open' y cualquier estilo en línea.
+                menuContentOptions.classList.remove('is-open');
+                menuContentOptions.removeAttribute('style'); // Limpia estilos de transformaciones de drag-controller.
+            }
         }
     };
 
-    toggleButton.addEventListener('click', (e) => {
+    // --- Eventos ---
+    toggleOptionsButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        isModuleOptionsActive ? closeMenu() : openMenu();
+        const stateChanged = isModuleOptionsActive ? closeMenuOptions() : openMenuOptions();
+        if (stateChanged) updateLogState();
+    });
+
+    toggleSurfaceButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const stateChanged = isModuleSurfaceActive ? closeMenuSurface() : openMenuSurface();
+        if (stateChanged) updateLogState();
     });
 
     if (closeOnClickOutside) {
         document.addEventListener('click', (e) => {
-            if (isAnimating || !isModuleOptionsActive) return;
-            if (window.innerWidth <= 468) {
-                if (e.target === moduleOptions) closeMenu();
-            } else {
-                if (!moduleOptions.contains(e.target) && !toggleButton.contains(e.target)) closeMenu();
+            if (isAnimating) return;
+            let stateChanged = false;
+
+            if (isModuleOptionsActive) {
+                if (window.innerWidth <= 468) {
+                    if (e.target === moduleOptions) stateChanged = closeMenuOptions();
+                } else {
+                    if (!moduleOptions.contains(e.target) && !toggleOptionsButton.contains(e.target)) {
+                        stateChanged = closeMenuOptions();
+                    }
+                }
             }
+
+            if (isModuleSurfaceActive && !moduleSurface.contains(e.target) && !toggleSurfaceButton.contains(e.target)) {
+                stateChanged = closeMenuSurface() || stateChanged;
+            }
+
+            if (stateChanged) updateLogState();
         });
     }
 
     if (closeOnEscape) {
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeMenu();
+            if (e.key === 'Escape') {
+                const optionsClosed = closeMenuOptions();
+                const surfaceClosed = closeMenuSurface();
+                if (optionsClosed || surfaceClosed) updateLogState();
+            }
         });
     }
 
-    initDragController(closeMenu, () => isAnimating);
+    // --- Inicializadores ---
+    window.addEventListener('resize', handleResize); // <--- NUEVO
+    initDragController(closeMenuOptions, () => isAnimating);
     updateLogState(); // Estado inicial
 }
 

@@ -31,8 +31,18 @@ function initDragController(closeMenuCallback, isAnimatingCallback) {
         if (!isDragging) return;
         isDragging = false;
 
-        const menuHeight = menuContent.offsetHeight;
         const dragDistance = menuContent.getBoundingClientRect().top - initialMenuTop;
+        const menuHeight = menuContent.offsetHeight;
+
+        // --- INICIO DE LA CORRECCIÓN ---
+
+        // Si la distancia es casi nula, fue un clic. Limpiar y salir.
+        if (Math.abs(dragDistance) < 5) {
+            menuContent.removeAttribute('style');
+            return;
+        }
+
+        // --- FIN DE LA CORRECCIÓN ---
 
         if (dragDistance > menuHeight * 0.4) {
             if (typeof closeMenuCallback === 'function') {
@@ -41,9 +51,12 @@ function initDragController(closeMenuCallback, isAnimatingCallback) {
         } else {
             menuContent.style.transition = 'transform 0.3s ease-out';
             menuContent.style.transform = 'translateY(0)';
-            menuContent.addEventListener('transitionend', () => {
+
+            const cleanupStyles = () => {
                 menuContent.removeAttribute('style');
-            }, {
+            };
+
+            menuContent.addEventListener('transitionend', cleanupStyles, {
                 once: true
             });
         }
